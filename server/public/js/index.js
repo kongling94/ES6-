@@ -9194,6 +9194,14 @@
 
 	'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	// {
 	//     console.log('a','\u0061');
 	//     //字符大于0xFFFF的情况下 会出现乱码
@@ -9230,15 +9238,364 @@
 	// }
 
 
-	{
-	    //函数的默认值
-	    var test = function test(x) {
-	        var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default->默认值';
+	// {//函数的默认值
+	//     function test(x,y='default->默认值'){
+	//         console.log('test函数的默认值',x,y);
+	//     }
+	//     test('呵呵哒')
+	// }
+	//
+	// {
+	//     let x='out';
+	//     function item(x,y=x){
+	//         console.log(x,y)
+	//     }
+	//     item('inner')
+	// }
+	//
+	// {
+	//     function getArrayItem(...ary){
+	//         for(let item of ary){
+	//             console.log(item)
+	//         }
+	//     }
+	//     getArrayItem(1,2,3,4,5,6,'g')
+	// }
 
-	        console.log('test函数的默认值', x, y);
+	{
+	    //对象的新增
+	    //简洁语法
+	    var name = 'momo';
+	    var age = 18;
+
+	    var abc = {
+	        name: name,
+	        age: age
+	    };
+	    console.log(abc);
+
+	    //方法
+	    var methods = {
+	        say: function say() {
+	            console.log('es5', "my lover is K");
+	        }
+	    };
+	    var method1 = {
+	        say: function say() {
+	            console.log('es6', "my lover is K");
+	        }
+	    };
+	}
+
+	// {
+	//     //属性
+	//     let c ='fff';
+	//     let ObjAttr={
+	//         a:'b',
+	//         c:'d'
+	//     }
+	//
+	//     //[c]的意思是获取变量c的值作为es6_obj的key
+	//     let es6_obj={
+	//         [c]:'gg'
+	//     }
+	//     console.log(es6_obj);
+	// }
+	//
+	// {
+	//     let a1=Symbol("你好");
+	//     let a2=Symbol.for('a2');
+	//     let a3=Symbol.for('a2');
+	//     console.log(a2===a3);
+	// }
+	//
+	// {   //可以避免重名报错的情况
+	//     let a2=Symbol.for('aaa');
+	//     let obj={
+	//         [a2]:'abcd',
+	//         aaa:'ccc'
+	//     }
+	//     console.log(obj);
+	// }
+
+	{
+	    var list = new Set();
+	    list.add(5);
+	    list.add(7);
+	    //打印长度
+	    console.log(list.size);
+	}
+
+	{
+	    var arr = [1, 2, 3, 4, 5];
+	    var item = new Set(arr);
+	    // 打印长度
+	    console.log(item.size);
+	}
+	{
+	    var ary1 = new Set();
+	    ary1.add(1);
+	    ary1.add(2);
+	    //重复添加 但是不报错，可以用在数组去重
+	    ary1.add(1);
+	    console.log(ary1);
+	}
+
+	{
+	    //map和array的增删改查
+	    var map = new Map();
+	    var array = [];
+	    //增
+	    map.set('a', 1);
+	    array.push({ b: 2 });
+	    console.log(map, array);
+	    //查
+	    var map_has = map.has('a');
+	    var ary_has = array.find(function (item) {
+	        item.t;
+	    });
+
+	    //改
+	    map.set('a', 'aa');
+	    array.forEach(function (item) {
+	        return item.t ? item.t = 2 : '';
+	    });
+	    //删
+	    map.delete('a');
+	    var index = array.findIndex(function (item) {
+	        return item.t;
+	    });
+	    array.splice(index, 1);
+	}
+
+	{
+	    //set和array的对比
+	    var set = new Set();
+	    var ary = [];
+	    //增
+	    set.add({ t: 1 });
+	    ary.push({ 'aa': 12 });
+
+	    //查
+	    var set_has = set.has({ t: 1 }); //能返回值，但是会报错，因为引用的是这个对象的内存地址，可如果想要返回true需要先把这个对象保存下载
+	    var _ary_has = ary.find(function (item) {
+	        return item.aa;
+	    });
+	    //改
+	    set.forEach(function (item) {
+	        return item.t ? item.t = 2 : "";
+	    });
+	    ary.forEach(function (item) {
+	        return item.aa ? item.aa = 22 : "";
+	    });
+	    // 删
+	    set.forEach(function (item) {
+	        return item.t ? set.delete(item) : '';
+	    });
+	    var _index = ary.findIndex(function (item) {
+	        return item.aa;
+	    });
+	    ary.splice(_index, 1);
+	    // set和array改、删都比较麻烦
+	}
+
+	{
+	    //map、set、object的对比
+	    var _map = new Map();
+	    var _set = new Set();
+	    var obj = { t: 1 };
+	    var _item = { t: 12
+	        //增加
+	    };_map.set({ 't': 12 });
+	    _set.add(_item);
+	    obj['c'] = 13;
+	    //查
+	    _map.has('t');
+	    _set.has(_item);
+	    for (var key in obj) {
+	        obj[key];
+	    }
+	    //改
+	    _map.set('t', 2);
+	    //因为set是引用item这个对象的内存地址，所以直接修改item.t=2
+	    obj['t'] = 3;
+	    //删
+	    _map.delete('t');
+	    _set.delete(_item);
+	    delete obj['t'];
+	}
+
+	//proxy代理和relfect反射
+	{
+	    var _obj = {
+	        time: '2017-12-1',
+	        name: 'www.momo.com',
+	        _r: 123
 	    };
 
-	    test('呵呵哒');
+	    var proxy_item = new Proxy(_obj, {
+	        //代理对象属性的属性
+	        get: function get(target, key) {
+	            return target[key].replace('2017', '2018');
+	        },
+	        set: function set(target, key, value) {
+	            if (key === 'name') {
+	                return target[key] = value;
+	            } else {
+	                return target[key];
+	            }
+	        },
+
+	        //拦截key in object
+	        has: function has(target, key) {
+	            if (key === 'name') {
+	                return target[key];
+	            } else {
+	                false;
+	            }
+	        },
+	        del: function del(target, key) {
+	            if (key.indOf('_') > -1) {
+	                delete target[key];
+	                return true;
+	            } else {
+	                return false;
+	            }
+	        }
+	    });
+	    console.log(proxy_item.time);
+	    proxy_item.name = 'www.baidu.com';
+	    console.log(proxy_item.name);
+	}
+
+	{
+	    var _obj2 = {
+	        name: 'momo',
+	        age: 18,
+	        sayHI: function sayHI() {
+	            console.log('My name is' + this.name, 'age is' + this.age);
+	        }
+	    };
+	    console.log(Reflect.get(_obj2, 'age'));
+	    console.log(Reflect.set(_obj2, 'name', 'klh'));
+	    console.log(Reflect.get(_obj2, 'name'));
+	}
+
+	{
+	    //做一个数据代理的过滤函数
+	    //参数1 目标  参数2 配置选项
+	    var PilterData = function PilterData(target, filterData) {
+	        // 返回的是一个proxy对象处理过的信息
+	        return new Proxy(target, {
+	            //保存配置项到当前
+	            _filterData: filterData,
+	            //代理拦截的set方法
+	            set: function set(target, key, value, proxy) {
+	                //判断是否是目标的私有属性
+	                if (target.hasOwnProperty(key)) {
+	                    //交给配置选项进行处理
+	                    var va = this._filterData[key];
+	                    //判断结果
+	                    if (!!va(value)) {
+	                        return Reflect.set(target, key, value, proxy);
+	                    } else {
+	                        //抛出错误
+	                        throw Error('\u4E0D\u80FD\u8BBE\u7F6E' + key + '\u5230' + value);
+	                    }
+	                } else {
+	                    throw Error(key + ' undifined');
+	                }
+	            }
+	        });
+	    };
+	    //配置选项
+
+
+	    var options = {
+	        name: function name(val) {
+	            return typeof val === 'String';
+	        },
+	        age: function age(val) {
+	            return typeof val === 'number';
+	        }
+	    };
+	    //创建的类 返回的是经过 自己定义的proxy对象处理过的数据
+
+	    var Person = function Person(name, age) {
+	        _classCallCheck(this, Person);
+
+	        this.name = name;
+	        this.age = age;
+	        return PilterData(this, options);
+	    };
+
+	    var person1 = new Person('lilei', 30);
+	    // person1.name=25;
+	    console.log(person1);
+	}
+
+	{
+	    //类的继承
+	    var _Person = function _Person(name) {
+	        var age = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 20;
+
+	        _classCallCheck(this, _Person);
+
+	        this.name = name;
+	        this.age = age;
+	    };
+
+	    var Boy = function (_Person2) {
+	        _inherits(Boy, _Person2);
+
+	        function Boy() {
+	            var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'baby';
+
+	            _classCallCheck(this, Boy);
+
+	            //放在第一行
+	            var _this = _possibleConstructorReturn(this, (Boy.__proto__ || Object.getPrototypeOf(Boy)).call(this, name));
+	            //传递给父类
+
+
+	            _this.type = 'child';
+	            return _this;
+	        }
+
+	        return Boy;
+	    }(_Person);
+
+	    console.log(new Boy());
+	}
+
+	{
+	    var _Person3 = function () {
+	        function _Person3(name) {
+	            var age = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 20;
+
+	            _classCallCheck(this, _Person3);
+
+	            this.name = name;
+	            this.age = age;
+	        }
+
+	        _createClass(_Person3, [{
+	            key: 'longName',
+	            get: function get() {
+	                return 'woca：' + this.name;
+	            },
+	            set: function set(value) {
+	                this.name = value;
+	            }
+	        }]);
+
+	        return _Person3;
+	    }();
+
+	    var _obj3 = new _Person3();
+	    _obj3.name = 'zsd';
+	    _obj3.longName = 'nihao';
+	    console.log(_obj3.longName);
 	}
 
 /***/ })
